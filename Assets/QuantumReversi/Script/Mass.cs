@@ -17,7 +17,11 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
 
     private Mass[][] masses = new Mass[3][];
 
+    private bool isSettable;
+
     public StoneSettable[][] Stones => throw new System.NotImplementedException();
+
+    public bool IsSettable { get => isSettable; set => isSettable = value; }
 
     /// <summary>
     /// rightとbottomを上手く使って、実際に置いてある石を配列に表現
@@ -74,6 +78,11 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
        
     }
 
+    public void Focus()
+    {
+        throw new System.NotImplementedException();
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -85,4 +94,6 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     {
 
     }
+
+    
 }
