@@ -25,6 +25,7 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     ///  AIが石をセットする際の関数
     ///  stonesの中にあるrow, colにある位置のStoneSettableを使って石セット
     ///  typeはそのまま入れる
+    ///  StoneSetをするときは await ~.StoneSet(type)と書くこと
     /// </summary>
     /// <param name="row">行番号（上から何番）</param>
     /// <param name="col">列番号（左から何番）</param>
@@ -37,6 +38,8 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
 
     /// <summary>
     /// headMassのwatchを行う。
+    /// watchedBoardにwatchの返り値を入れる
+    /// watchedBoard = await 変数名.watch()
     /// </summary>
     /// <returns></returns>
     public async UniTask WatchBoard()
