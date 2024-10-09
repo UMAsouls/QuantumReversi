@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
-public class CP : MonoBehaviour, ICP
+public class CP : MonoBehaviour, ICP, CPStoneCountable
 {
     [Inject]
     IAI ai;
@@ -12,6 +12,10 @@ public class CP : MonoBehaviour, ICP
     private int stone70;
 
     StoneType mode;
+
+    public int Stone90 => stone90;
+
+    public int Stone70 => stone70;
 
     public async UniTask CPTurn()
     {
