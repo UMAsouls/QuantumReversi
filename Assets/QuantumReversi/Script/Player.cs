@@ -13,8 +13,8 @@ public class Player : MonoBehaviour, IPlayer
 
     public async UniTask PlayerTurn()
     {
-        if (await positioner.PutStone() == StoneType.NINETY) stone90++;
-        else stone70++;
+        if (await positioner.PutStone() == StoneType.NINETY) stone90--;
+        else stone70--;
     }
 
     // Use this for initialization
