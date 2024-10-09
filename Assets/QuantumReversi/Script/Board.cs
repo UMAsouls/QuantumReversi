@@ -12,9 +12,21 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     [Inject]
     private HeadMass headMass;
 
+    /// <summary>
+    /// AIが石をセットする際に使う2次元配列
+    /// </summary>
     private StoneSettable[][] stones;
 
+    /// <summary>
+    /// 石の確率の盤面
+    /// 自分の石になる確率が書いてある
+    /// 何も置かれてなかったら-1
+    /// </summary>
     private int[][] realBoard;
+    /// <summary>
+    /// 観測後の盤面
+    /// 1なら自分の石、0なら無し、-1なら相手の石
+    /// </summary>
     private int[][] watchedBoard;
 
     public int[][] RealBoard => realBoard;
@@ -53,6 +65,7 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     void Start()
     {
         stones = headMass.Stones;
+        headMass.SetMass();
     }
 
     // Update is called once per frame
