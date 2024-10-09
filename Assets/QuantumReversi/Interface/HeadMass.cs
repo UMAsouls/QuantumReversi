@@ -9,4 +9,6 @@ public interface HeadMass
     int[][] GetRealBoard();
 
     StoneSettable[][] Stones { get; }
+
+    public void SetMass();
 }
