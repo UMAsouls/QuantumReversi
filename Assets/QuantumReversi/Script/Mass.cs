@@ -45,6 +45,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// <summary>
     /// 石をセットする
     /// セットした際に石もひっくり返す処理を行う
+    /// typeによって石の確率を変える
     /// </summary>
     /// <param name="type"></param>
     public void StoneSet(StoneType type)

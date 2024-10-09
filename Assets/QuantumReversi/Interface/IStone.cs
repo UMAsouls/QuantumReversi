@@ -14,5 +14,7 @@ public interface IStone
     public int Watch();
     public void Set(int prob);
 
+    public void Reverse();
+
     public WatchedStoneType watchedType { get; }
 }
