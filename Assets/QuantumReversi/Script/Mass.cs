@@ -83,6 +83,11 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
         throw new System.NotImplementedException();
     }
 
+    public void UnFocus()
+    {
+        throw new System.NotImplementedException();
+    }
+
     // Use this for initialization
     void Start()
     {
