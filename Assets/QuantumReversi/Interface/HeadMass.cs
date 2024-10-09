@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public interface CountableMass 
+public interface HeadMass 
 {
     int[][] Watch();
     int[][] GetRealBoard();
+
+    StoneSettable[][] Stones { get; }
 }
