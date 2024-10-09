@@ -57,10 +57,12 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
         if (setMass == null) return;
 
         putable = setMass.IsSettable;
+        setMass.Focus();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        setMass.Focus();
         putable = false;
         setMass = null;
     }
