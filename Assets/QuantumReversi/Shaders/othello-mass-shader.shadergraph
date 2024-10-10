@@ -81,7 +81,6 @@
             "m_Id": "2793ca1a787a4b40b78112c1b929b96e"
         }
     ],
-    "m_GroupDatas": [],
     "m_StickyNoteDatas": [],
     "m_Edges": [
         {
@@ -236,7 +235,7 @@
                     "m_Id": "e0c8e49daee640fe9e72b4985cae9e68"
                 },
                 "m_SlotId": 1
-        }
+            }
         },
         {
             "m_OutputSlot": {

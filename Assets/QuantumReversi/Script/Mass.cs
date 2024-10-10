@@ -83,16 +83,6 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
 
     public void Focus()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void UnFocus()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Focus()
-    {
         animator.SetBool("Focus", true);
     }
 
