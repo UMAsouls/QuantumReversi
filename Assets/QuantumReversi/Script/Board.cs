@@ -45,7 +45,7 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     /// <returns>Unitask‚Á‚Ä‘‚¢‚Ä‚ ‚é‚¯‚Ç‰½‚à•Ô‚³‚È‚¢</returns>
     public async UniTask SetStone(int row, int col, StoneType type)
     {
-
+        stones[row][col].StoneSet(type);
     }
 
     /// <summary>
