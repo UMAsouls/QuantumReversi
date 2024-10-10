@@ -32,6 +32,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// <returns>nullは消してね</returns>
     public int[][] GetRealBoard()
     {
+
         return null;
     }
 

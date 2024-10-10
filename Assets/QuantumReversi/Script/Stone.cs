@@ -1,9 +1,10 @@
 ﻿using System.Collections;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class Stone : IStone
 {
-    public int probability;
+    private int probability = 0;
     public int Probability => probability;
 
     private WatchedStoneType type;
@@ -16,7 +17,7 @@ public class Stone : IStone
     /// <param name="prob"></param>
     public void Set(int prob)
     {
-
+        probability = prob;
     }
 
     /// <summary>
@@ -25,7 +26,15 @@ public class Stone : IStone
     /// </summary>
     public void Reverse()
     {
-
+        if(type == WatchedStoneType.PlayerSTONE)
+        {
+            type = WatchedStoneType.CPSTONE;
+        }
+        else if(type == WatchedStoneType.CPSTONE)
+        {
+            type = WatchedStoneType.PlayerSTONE;
+        }
+        probability = 100 - probability;
     }
 
     /// <summary>
@@ -38,6 +47,33 @@ public class Stone : IStone
 
     public int Watch()
     {
-        return probability;
+        if(probability == 0)
+        {
+            type = WatchedStoneType.NONE;
+            return 0;
+        }
+
+        float t = UnityEngine.Random.value * 100.0f;
+        if (t < probability)
+        {
+            type = WatchedStoneType.PlayerSTONE;
+        }
+        else
+        {
+            type = WatchedStoneType.CPSTONE;
+        }
+
+        switch (type)
+        {
+            case WatchedStoneType.CPSTONE:
+                return -1;
+                break;
+            case WatchedStoneType.PlayerSTONE:
+                return 1;
+                break;
+            default:
+                return 0;
+                break;
+        }
     }
 }
