@@ -5,10 +5,10 @@ using UnityEngine;
 
 public interface HeadMass 
 {
-    public UniTask<int[][]> Watch();
-    int[][] GetRealBoard();
+    public UniTask<int[,]> Watch();
+    int[,] GetRealBoard();
 
-    StoneSettable[][] Stones { get; }
+    StoneSettable[,] Stones { get; }
 
     public void SetMass();
 }

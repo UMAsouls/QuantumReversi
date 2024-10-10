@@ -17,11 +17,11 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
 
     public Mass topleft, top, topright, bottomleft, left, bottomright;
 
-    private Mass[][] masses = new Mass[3][];
+    private Mass[, ] masses = new Mass[3,3];
 
     private bool isSettable;
 
-    public StoneSettable[][] Stones => throw new System.NotImplementedException();
+    public StoneSettable[,] Stones => throw new System.NotImplementedException();
 
     public bool IsSettable { get => isSettable; set => isSettable = value; }
 
@@ -32,7 +32,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// 配列だけ作って再帰の関数に引数として渡す
     /// </summary>
     /// <returns>nullは消してね</returns>
-    public int[][] GetRealBoard()
+    public int[,] GetRealBoard()
     {
 
         return null;
@@ -60,9 +60,9 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
 
     }
 
-    private void watch(int[][] board, int row , int col)
+    private void watch(int[,] board, int row , int col)
     {
-        board[row][col] = stone.Watch();
+        board[row, col] = stone.Watch();
         if(right != null)
         {
             right.watch(board, row, col + 1);
@@ -81,7 +81,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// 配列だけ作って再帰の関数に引数として渡す
     /// </summary>
     /// <returns>観測後のBoardを返す(nullは消してね)</returns>
-    public async UniTask<int[][]> Watch()
+    public async UniTask<int[,]> Watch()
     {
 
         return null;
