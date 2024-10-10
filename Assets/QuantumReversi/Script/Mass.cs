@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
+using Zenject.Internal;
 
 public class Mass : MonoBehaviour, HeadMass, StoneSettable
 {
@@ -56,7 +57,22 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// <param name="type"></param>
     public void StoneSet(StoneType type)
     {
+
     }
+
+    private void watch(int[][] board, int row , int col)
+    {
+        board[row][col] = stone.Watch();
+        if(right != null)
+        {
+            right.watch(board, row, col + 1);
+        }
+        if(bottom != null && left == null)
+        {
+            bottom.watch(board, row + 1, col);
+        }
+    }
+
 
     /// <summary>
     /// Board観測
@@ -67,6 +83,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// <returns>観測後のBoardを返す(nullは消してね)</returns>
     public async UniTask<int[][]> Watch()
     {
+
         return null;
     }
 
@@ -88,7 +105,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
         {
             right.SetMass();
         }
-        if(bottom != null)
+        if(bottom != null && left == null)
         {
             bottom.SetMass();
         }
