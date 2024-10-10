@@ -1,7 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
+using Zenject.Internal;
 
 public class Mass : MonoBehaviour, HeadMass, StoneSettable
 {
@@ -13,15 +15,29 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     [SerializeField]
     public Mass bottom;
 
-    public Mass topleft, top, topright, bottomleft, bottomright;
+    public Mass topleft, top, topright, bottomleft, left, bottomright;
 
-    private Mass[][] masses = new Mass[3][];
+    private Mass[, ] masses = new Mass[3,3];
 
     private bool isSettable;
 
-    public StoneSettable[][] Stones => throw new System.NotImplementedException();
+    public StoneSettable[,] Stones => throw new System.NotImplementedException();
 
     public bool IsSettable { get => isSettable; set => isSettable = value; }
+
+    public void getRealBoard(int[,] board, int row, int col)
+    {
+        board[row, col] = stone.Probability;
+        if (right != null)
+        {
+            right.getRealBoard(board, row, col + 1);
+        }
+        if (bottom != null && left == null)
+        {
+            bottom.getRealBoard(board, row + 1, col);
+        }
+    }
+
 
     /// <summary>
     /// rightとbottomを上手く使って、実際に置いてある石を配列に表現
@@ -30,9 +46,11 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// 配列だけ作って再帰の関数に引数として渡す
     /// </summary>
     /// <returns>nullは消してね</returns>
-    public int[][] GetRealBoard()
+    public int[,] GetRealBoard()
     {
-        return null;
+        int[,] board = new int[6, 6];
+        getRealBoard(board, 0, 0);
+        return board;
     }
 
     /// <summary>
@@ -43,7 +61,12 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// <param name="reverseType"></param>
     public void Reverse(int[] dir, WatchedStoneType reverseType)
     {
-
+        if(stone.watchedType == reverseType)
+        {
+            stone.Reverse();
+            if (masses[dir[0], dir[1]] == null) return;
+            masses[dir[0], dir[1]].Reverse(dir, reverseType);
+        }
     }
 
     /// <summary>
@@ -54,7 +77,50 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// <param name="type"></param>
     public void StoneSet(StoneType type)
     {
+        WatchedStoneType reverseType = WatchedStoneType.NONE;
+        switch (type)
+        {
+            case StoneType.TEN:
+                stone.Set(10);
+                reverseType = WatchedStoneType.PlayerSTONE;
+                break;
+            case StoneType.THIRTY:
+                stone.Set(30);
+                reverseType = WatchedStoneType.PlayerSTONE;
+                break;
+            case StoneType.SEVENTY:
+                stone.Set(70);
+                reverseType = WatchedStoneType.CPSTONE;
+                break;
+            case StoneType.NINETY:
+                stone.Set(90);
+                reverseType = WatchedStoneType.CPSTONE;
+                break;
+        }
+        for(int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (i == 1 && j == 1) continue;
+                if(masses[i, j] == null) continue;
+                masses[i, j].Reverse(new int[] { i, j }, reverseType);
+            }
+        }
     }
+
+    public void watch(int[,] board, int row , int col)
+    {
+        board[row, col] = stone.Watch();
+        if(right != null)
+        {
+            right.watch(board, row, col + 1);
+        }
+        if(bottom != null && left == null)
+        {
+            bottom.watch(board, row + 1, col);
+        }
+    }
+
 
     /// <summary>
     /// Board観測
@@ -63,9 +129,11 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// 配列だけ作って再帰の関数に引数として渡す
     /// </summary>
     /// <returns>観測後のBoardを返す(nullは消してね)</returns>
-    public async UniTask<int[][]> Watch()
+    public async UniTask<int[,]> Watch()
     {
-        return null;
+        int[,] board = new int[6,6];
+        watch(board, 0, 0);
+        return board;
     }
 
     /// <summary>
@@ -75,7 +143,21 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// </summary>
     public void SetMass()
     {
-       
+        bottomright = right.bottom;
+        right.left = this;
+        bottom.top = this;
+        right.bottomleft = bottom;
+        bottom.topright = right;
+        bottomright.topleft = this;
+
+        if (right != null)
+        {
+            right.SetMass();
+        }
+        if(bottom != null && left == null)
+        {
+            bottom.SetMass();
+        }
     }
 
     public void Focus()

@@ -15,23 +15,23 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     /// <summary>
     /// AIが石をセットする際に使う2次元配列
     /// </summary>
-    private StoneSettable[][] stones;
+    private StoneSettable[,] stones;
 
     /// <summary>
     /// 石の確率の盤面
     /// 自分の石になる確率が書いてある
-    /// 何も置かれてなかったら-1
+    /// 何も置かれてなかったら0
     /// </summary>
-    private int[][] realBoard;
+    private int[,] realBoard;
     /// <summary>
     /// 観測後の盤面
     /// 1なら自分の石、0なら無し、-1なら相手の石
     /// </summary>
-    private int[][] watchedBoard;
+    private int[,] watchedBoard;
 
-    public int[][] RealBoard => realBoard;
+    public int[,] RealBoard => realBoard;
 
-    public int[][] JudgedPos => posJudge.Judge(watchedBoard);
+    public int[,] JudgedPos => posJudge.Judge(watchedBoard);
 
     /// <summary>
     ///  AIが石をセットする際の関数
@@ -45,7 +45,7 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     /// <returns>Unitaskって書いてあるけど何も返さない</returns>
     public async UniTask SetStone(int row, int col, StoneType type)
     {
-
+        stones[row,col].StoneSet(type);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     /// <returns></returns>
     public async UniTask WatchBoard()
     {
-
+        watchedBoard = await headMass.Watch();
     }
 
 

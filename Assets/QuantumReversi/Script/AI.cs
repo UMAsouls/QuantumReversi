@@ -12,9 +12,9 @@ public class AI : IAI
     public async UniTask SetStone()
     {
         //おける場所
-        int[][] pos = board.JudgedPos;
+        int[,] pos = board.JudgedPos;
         //確率盤面
-        int[][] realBoard = board.RealBoard;
+        int[,] realBoard = board.RealBoard;
 
         //置く位置(x, y)
         int[] setPos = new int[2];
