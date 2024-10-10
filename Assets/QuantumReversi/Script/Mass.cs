@@ -25,6 +25,20 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
 
     public bool IsSettable { get => isSettable; set => isSettable = value; }
 
+    public void getRealBoard(int[,] board, int row, int col)
+    {
+        board[row, col] = stone.Probability;
+        if (right != null)
+        {
+            right.getRealBoard(board, row, col + 1);
+        }
+        if (bottom != null && left == null)
+        {
+            bottom.getRealBoard(board, row + 1, col);
+        }
+    }
+
+
     /// <summary>
     /// rightとbottomを上手く使って、実際に置いてある石を配列に表現
     /// stoneから確率(Probability)を取得してリストに書いていく
@@ -34,8 +48,9 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// <returns>nullは消してね</returns>
     public int[,] GetRealBoard()
     {
-
-        return null;
+        int[,] board = new int[6, 6];
+        getRealBoard(board, 0, 0);
+        return board;
     }
 
     /// <summary>
@@ -46,7 +61,12 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// <param name="reverseType"></param>
     public void Reverse(int[] dir, WatchedStoneType reverseType)
     {
-
+        if(stone.watchedType == reverseType)
+        {
+            stone.Reverse();
+            if (masses[dir[0], dir[1]] == null) return;
+            masses[dir[0], dir[1]].Reverse(dir, reverseType);
+        }
     }
 
     /// <summary>
@@ -57,7 +77,35 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// <param name="type"></param>
     public void StoneSet(StoneType type)
     {
-
+        WatchedStoneType reverseType = WatchedStoneType.NONE;
+        switch (type)
+        {
+            case StoneType.TEN:
+                stone.Set(10);
+                reverseType = WatchedStoneType.PlayerSTONE;
+                break;
+            case StoneType.THIRTY:
+                stone.Set(30);
+                reverseType = WatchedStoneType.PlayerSTONE;
+                break;
+            case StoneType.SEVENTY:
+                stone.Set(70);
+                reverseType = WatchedStoneType.CPSTONE;
+                break;
+            case StoneType.NINETY:
+                stone.Set(90);
+                reverseType = WatchedStoneType.CPSTONE;
+                break;
+        }
+        for(int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (i == 1 && j == 1) continue;
+                if(masses[i, j] == null) continue;
+                masses[i, j].Reverse(new int[] { i, j }, reverseType);
+            }
+        }
     }
 
     public void watch(int[,] board, int row , int col)
