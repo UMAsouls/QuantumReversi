@@ -20,8 +20,11 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
 
     private bool isSettable;
 
+<<<<<<< HEAD
     private Animator animator;
 
+=======
+>>>>>>> b8d69c08daa23c7c17ce4efb7a9043f07ef095e0
     public StoneSettable[][] Stones => throw new System.NotImplementedException();
 
     public bool IsSettable { get => isSettable; set => isSettable = value; }
@@ -83,12 +86,20 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
 
     public void Focus()
     {
+<<<<<<< HEAD
         animator.SetBool("Focus", true);
+=======
+        throw new System.NotImplementedException();
+>>>>>>> b8d69c08daa23c7c17ce4efb7a9043f07ef095e0
     }
 
     public void UnFocus()
     {
+<<<<<<< HEAD
         animator.SetBool("Focus", false);
+=======
+        throw new System.NotImplementedException();
+>>>>>>> b8d69c08daa23c7c17ce4efb7a9043f07ef095e0
     }
 
     // Use this for initialization

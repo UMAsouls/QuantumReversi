@@ -10,7 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8937657610371943898}
   - component: {fileID: 8515818380210627400}
+<<<<<<< HEAD
   - component: {fileID: 8350112607776554245}
+=======
+>>>>>>> b8d69c08daa23c7c17ce4efb7a9043f07ef095e0
   m_Layer: 0
   m_Name: othello-mass
   m_TagString: Untagged
@@ -85,6 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+<<<<<<< HEAD
 --- !u!95 &8350112607776554245
 Animator:
   serializedVersion: 5
@@ -106,3 +110,5 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+=======
+>>>>>>> b8d69c08daa23c7c17ce4efb7a9043f07ef095e0
