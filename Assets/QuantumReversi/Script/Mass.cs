@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -13,7 +14,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     [SerializeField]
     public Mass bottom;
 
-    public Mass topleft, top, topright, bottomleft, bottomright;
+    public Mass topleft, top, topright, bottomleft, left, bottomright;
 
     private Mass[][] masses = new Mass[3][];
 
@@ -76,7 +77,21 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// </summary>
     public void SetMass()
     {
-       
+        bottomright = right.bottom;
+        right.left = this;
+        bottom.top = this;
+        right.bottomleft = bottom;
+        bottom.topright = right;
+        bottomright.topleft = this;
+
+        if (right != null)
+        {
+            right.SetMass();
+        }
+        if(bottom != null)
+        {
+            bottom.SetMass();
+        }
     }
 
     public void Focus()
