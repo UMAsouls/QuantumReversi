@@ -81,9 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a325262a7c87a2345b348b6fdf611e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
-  input: {fileID: 3535149265710076864}
-=======
   inputAction:
     m_Name: Input
     m_Type: 0
@@ -93,7 +90,6 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
->>>>>>> b8d69c08daa23c7c17ce4efb7a9043f07ef095e0
 --- !u!114 &3535149265710076864
 MonoBehaviour:
   m_ObjectHideFlags: 0
