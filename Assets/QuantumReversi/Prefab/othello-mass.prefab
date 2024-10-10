@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8937657610371943898}
   - component: {fileID: 8515818380210627400}
   - component: {fileID: 8350112607776554245}
+  - component: {fileID: 2206852843587828645}
   m_Layer: 0
   m_Name: othello-mass
   m_TagString: Untagged
@@ -106,3 +107,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2206852843587828645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5405561347840542132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25db8ed3eaae054cb06b2fd053e1e30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  right: {fileID: 0}
+  bottom: {fileID: 0}
+  topleft: {fileID: 0}
+  top: {fileID: 0}
+  topright: {fileID: 0}
+  bottomleft: {fileID: 0}
+  left: {fileID: 0}
+  bottomright: {fileID: 0}
