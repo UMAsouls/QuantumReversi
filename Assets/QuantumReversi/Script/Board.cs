@@ -20,7 +20,7 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     /// <summary>
     /// 石の確率の盤面
     /// 自分の石になる確率が書いてある
-    /// 何も置かれてなかったら-1
+    /// 何も置かれてなかったら0
     /// </summary>
     private int[][] realBoard;
     /// <summary>
@@ -56,7 +56,7 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     /// <returns></returns>
     public async UniTask WatchBoard()
     {
-
+        watchedBoard = await headMass.Watch();
     }
 
 
