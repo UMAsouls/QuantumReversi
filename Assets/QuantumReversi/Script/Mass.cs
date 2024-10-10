@@ -60,7 +60,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
 
     }
 
-    private void watch(int[,] board, int row , int col)
+    public void watch(int[,] board, int row , int col)
     {
         board[row, col] = stone.Watch();
         if(right != null)
@@ -83,8 +83,9 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// <returns>観測後のBoardを返す(nullは消してね)</returns>
     public async UniTask<int[,]> Watch()
     {
-
-        return null;
+        int[,] board = new int[6,6];
+        watch(board, 0, 0);
+        return board;
     }
 
     /// <summary>
