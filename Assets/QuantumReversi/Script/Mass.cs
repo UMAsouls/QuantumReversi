@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
+[RequireComponent(typeof(Animator))]
 public class Mass : MonoBehaviour, HeadMass, StoneSettable
 {
     [Inject]
@@ -18,6 +19,8 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     private Mass[][] masses = new Mass[3][];
 
     private bool isSettable;
+
+    private Animator animator;
 
     public StoneSettable[][] Stones => throw new System.NotImplementedException();
 
@@ -80,18 +83,18 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
 
     public void Focus()
     {
-        throw new System.NotImplementedException();
+        animator.SetBool("Focus", true);
     }
 
     public void UnFocus()
     {
-        throw new System.NotImplementedException();
+        animator.SetBool("Focus", false);
     }
 
     // Use this for initialization
     void Start()
     {
-
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
