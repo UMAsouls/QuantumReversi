@@ -81,15 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a325262a7c87a2345b348b6fdf611e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAction:
-    m_Name: Input
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 9d1a3a3e-aa1e-47e7-9165-e2f0bb499b9a
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+  input: {fileID: 3535149265710076864}
 --- !u!114 &3535149265710076864
 MonoBehaviour:
   m_ObjectHideFlags: 0
