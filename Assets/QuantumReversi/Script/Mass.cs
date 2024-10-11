@@ -17,6 +17,42 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     [SerializeField]
     GameObject CPStone;
     [SerializeField]
+    GameObject Stone70;
+    [SerializeField]
+    GameObject Stone30;
+
+    private void StoneDeactivate()
+    {
+        PlayerStone.SetActive(false);
+        CPStone.SetActive(false);
+        Stone70.SetActive(false);
+        Stone30.SetActive(false);
+    }
+
+    private void AppearPlayerStone()
+    {
+        StoneDeactivate();
+        PlayerStone.SetActive(true);
+    }
+    private void AppearCPStone()
+    {
+        StoneDeactivate();
+        CPStone.SetActive(true);
+    }
+
+    private void AppearStone70()
+    {
+        StoneDeactivate();
+        Stone70.SetActive(true);
+    }
+
+    private void AppearStone30()
+    {
+        StoneDeactivate();
+        Stone30.SetActive(true);
+    }
+
+    [SerializeField]
     private GameObject SettableEffect;
 
     [SerializeField]
@@ -53,7 +89,6 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
             }
             m1 = m1.bottom;
         }
-        Debug.Log(stones.Length);
         return stones;
     }
 
@@ -105,12 +140,10 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
             switch (reverseType)
             {
                 case WatchedStoneType.PlayerSTONE:
-                    PlayerStone.SetActive(false);
-                    CPStone.SetActive(true);
+                    AppearCPStone();
                     break;
                 case WatchedStoneType.CPSTONE:
-                    PlayerStone.SetActive(true);
-                    CPStone.SetActive(false);
+                    AppearPlayerStone();
                     break;
             }
 
@@ -152,10 +185,10 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
         switch (reverseType)
         {
             case WatchedStoneType.PlayerSTONE:
-                PlayerStone.SetActive(true);
+                CPStone.SetActive(true);
                 break;
             case WatchedStoneType.CPSTONE:
-                CPStone.SetActive(true);
+                PlayerStone.SetActive(true);
                 break;
         }
 
@@ -173,7 +206,17 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     public void watch(int[,] board, int row , int col)
     {
         board[row, col] = stone.Watch();
-        if(right != null)
+        if (board[row, col] == 1)
+        {
+            PlayerStone.SetActive(true) ;
+            CPStone.SetActive(false) ;
+        }
+        if (board[row, col] == -1)
+        {
+            PlayerStone.SetActive(false);
+            CPStone.SetActive(true);
+        }
+        if (right != null)
         {
             right.watch(board, row, col + 1);
         }
@@ -218,6 +261,13 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
 
         if (right != null) right.SetMass();
         if (bottom != null && left == null) bottom.SetMass();
+
+        masses = new Mass[,]
+        {
+            {topleft, top, topright },
+            {left, this, right},
+            {bottomleft, bottom, bottomright }
+        };
     }
     public void Focus()
     {
@@ -229,6 +279,46 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
         animator.SetBool("Focus", false);
     }
 
+    public void ChangeRealBoard()
+    {
+        switch(stone.Probability)
+        {
+            case 90:
+                AppearPlayerStone();
+                break;
+            case 70:
+                AppearStone70();
+                break;
+            case 30:
+                AppearStone30();
+                break;
+            case 10:
+                AppearCPStone();
+                break;
+            default:
+                break;
+        }
+
+        if(right != null) right.ChangeRealBoard();
+        if(bottom != null) bottom.ChangeRealBoard();
+    }
+
+    public void ChangeWatchedBoard()
+    {
+        switch(stone.watchedType)
+        {
+            case WatchedStoneType.PlayerSTONE:
+                AppearPlayerStone();
+                break;
+            case WatchedStoneType.CPSTONE:
+                AppearCPStone();
+                break;
+        }
+
+        if (right != null) right.ChangeWatchedBoard();
+        if (bottom != null) bottom.ChangeWatchedBoard();
+    }
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -236,13 +326,16 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
         if (IsFirstPlayer)
         {
             stone.Set(90);
-            PlayerStone.SetActive(true);
+            AppearPlayerStone();
         }
         else if (IsFirstCP)
         {
             stone.Set(10);
-            CPStone.SetActive(true);
+            AppearCPStone();
         }
+
+        
+
     }
 
     // Use this for initialization

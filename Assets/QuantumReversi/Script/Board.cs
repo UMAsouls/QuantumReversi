@@ -33,14 +33,33 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
 
     public List<int[]> JudgedPosForAI => posJudge.Judge(watchedBoard, -1);
 
+    private bool IsReal;
+
+    public void BoardModeChange()
+    {
+        if(IsReal)
+        {
+            headMass.ChangeWatchedBoard();
+            IsReal = false;
+        }else
+        {
+            headMass.ChangeRealBoard();
+            IsReal = true;
+        }
+    }
+
     private void PosJudge(int turn)
     {
+        foreach (var row in stones)
+        {
+            foreach(var s in stones)
+            {
+                s.IsSettable = false;
+            }
+        }
         List<int[]> result = posJudge.Judge(watchedBoard, turn);
-        Debug.Log("posjudge");
-        Debug.Log(result.Count);
         foreach (var item in result)
         {
-            Debug.Log(item[1] + " , " + item[0]);
             stones[item[1], item[0]].IsSettable = true;
         }
     }
@@ -81,6 +100,7 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     {
         stones = headMass.Stones;
         headMass.SetMass();
+        IsReal = false;
     }
 
     // Update is called once per frame
