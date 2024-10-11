@@ -12,6 +12,8 @@ public class AI : IAI
     [Inject]
     BoardGettableForAI board;
 
+    StoneType type = StoneType.THIRTY;
+
     public async UniTask SetStone()
     {
         //おける場所
@@ -22,7 +24,8 @@ public class AI : IAI
         //置く位置(x, y)
         int[] setPos = new int[2];
         //置く石の確率
-        StoneType type = StoneType.TEN;
+        if(type == StoneType.TEN) type = StoneType.THIRTY;
+        else type = StoneType.THIRTY;
 
         // 新しい4次元配列を定義 (1, 1, 6, 6)
         float[] reshapedBoard = new float[36];
@@ -37,7 +40,7 @@ public class AI : IAI
         }
 
         // load model
-        ModelAsset modelAsset = Resources.Load("ViTPlayer") as ModelAsset;
+        ModelAsset modelAsset = Resources.Load("ViTPlayer_S") as ModelAsset;
         var runtimeModel = ModelLoader.Load(modelAsset);
 
         // create input tensor

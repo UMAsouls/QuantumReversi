@@ -7,7 +7,7 @@ public class Stone : IStone
     private int probability = 0;
     public int Probability => probability;
 
-    private WatchedStoneType type;
+    private WatchedStoneType type = WatchedStoneType.NONE;
 
     public WatchedStoneType watchedType => type;
 
@@ -18,6 +18,9 @@ public class Stone : IStone
     public void Set(int prob)
     {
         probability = prob;
+
+        if (probability <= 50) type = WatchedStoneType.CPSTONE;
+        else type = WatchedStoneType.PlayerSTONE;
     }
 
     /// <summary>

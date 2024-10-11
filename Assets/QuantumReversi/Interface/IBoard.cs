@@ -4,6 +4,12 @@ using UnityEngine;
 public interface IBoard
 {
     public UniTask WatchBoard();
-    public void PosJudgePlayer();
-    public void PosJudgeCP();
+    public int PosJudgePlayer();
+    public int PosJudgeCP();
+
+    public void BoardModeChange2Real();
+    public void BoardModeChange2Watch();
+
+    public void SettableReset();
+    public void ThunderAnime();
 }

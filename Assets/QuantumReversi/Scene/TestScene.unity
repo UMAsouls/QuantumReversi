@@ -1563,6 +1563,14 @@ PrefabInstance:
       propertyPath: IsFirstWhite
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6238962571535669897, guid: 2d72dc3b8e6df5742bb02a4769f1a2bd, type: 3}
+      propertyPath: m_TargetCamera
+      value: 
+      objectReference: {fileID: 604175010}
+    - target: {fileID: 6238962571535669897, guid: 2d72dc3b8e6df5742bb02a4769f1a2bd, type: 3}
+      propertyPath: m_TargetCameraAlpha
+      value: 0.228
+      objectReference: {fileID: 0}
     - target: {fileID: 6432389262047730024, guid: 2d72dc3b8e6df5742bb02a4769f1a2bd, type: 3}
       propertyPath: IsFirstWhite
       value: 1

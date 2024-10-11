@@ -58,7 +58,7 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
             isClick = false;
             await UniTask.WaitUntil(() => isClick);
 
-            if (putable && settable)  break;
+            if (putable && settable && setMass != null)  break;
         }
 
         var type = mode;
@@ -93,15 +93,19 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        putable = setMass.IsSettable;
-        setMass.Focus();
+        if(collision.tag == "Mass")
+        {
+            putable = setMass.IsSettable;
+            setMass.Focus();
+        }
+        
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.tag == "Board" && !collision.IsTouching(GetComponent<Collider2D>()))
         {
-            setMass = null;
             setMass.UnFocus();
+            setMass = null;
             putable = false;
         }
     }
@@ -111,6 +115,7 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
     {
         mode = StoneType.NINETY;
         settable = true;
+        isStay = false;
     }
 
     // Update is called once per frame

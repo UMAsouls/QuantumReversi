@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 using Zenject;
 
 public class Board : MonoBehaviour, IBoard, BoardGettableForAI
@@ -35,37 +36,64 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
 
     private bool IsReal;
 
-    public void BoardModeChange()
+    [SerializeField]
+    GameObject thunder;
+    [SerializeField]
+    AudioClip thunderSound;
+
+    private AudioSource audioSource;
+
+    public void ThunderAnime()
     {
-        if(IsReal)
-        {
-            headMass.ChangeWatchedBoard();
-            IsReal = false;
-        }else
-        {
-            headMass.ChangeRealBoard();
-            IsReal = true;
-        }
+        audioSource.PlayOneShot(thunderSound);
+        Instantiate(thunder, Vector3.zero, Quaternion.identity);
     }
 
-    private void PosJudge(int turn)
+    public void BoardModeChange2Real()
+    {
+        headMass.ChangeRealBoard();
+        IsReal = true;
+    }
+
+    public void BoardModeChange2Watch()
+    {
+        headMass.ChangeWatchedBoard();
+        IsReal = false;
+    }
+
+    public void BoardModeChange()
+    {
+        if (IsReal) BoardModeChange2Watch();
+        else BoardModeChange2Real();
+    }
+
+    public void SettableReset()
     {
         foreach (var row in stones)
         {
-            foreach(var s in stones)
+            foreach (var s in stones)
             {
                 s.IsSettable = false;
             }
         }
+    }
+
+    private int PosJudge(int turn)
+    {
+
+        SettableReset();
+        
         List<int[]> result = posJudge.Judge(watchedBoard, turn);
         foreach (var item in result)
         {
             stones[item[1], item[0]].IsSettable = true;
         }
+
+        return result.Count;
     }
 
-    public void PosJudgePlayer() =>PosJudge(1);
-    public void PosJudgeCP() => PosJudge(-1);
+    public int PosJudgePlayer() =>PosJudge(1);
+    public int PosJudgeCP() => PosJudge(-1);
 
     /// <summary>
     ///  AIÇ™êŒÇÉZÉbÉgÇ∑ÇÈç€ÇÃä÷êî
@@ -98,6 +126,8 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         stones = headMass.Stones;
         headMass.SetMass();
         IsReal = false;

@@ -23,26 +23,57 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject cpStart;
 
-    private async UniTask FirstPlayerGame()
-    {
+    private bool cpPass;
+    private bool playerPass;
 
+    private async UniTask PlayerTurn()
+    {
+        board.BoardModeChange2Real();
         playerStart.SetActive(true);
         await UniTask.Delay(1000);
         playerStart.SetActive(false);
+        board.BoardModeChange2Watch();
 
+        await UniTask.Delay(1000);
+        
+        board.ThunderAnime();
         await board.WatchBoard();
-        board.PosJudgePlayer();
+        await UniTask.Delay(800);
+        if (board.PosJudgePlayer() == 0) return;
         await player.PlayerTurn();
+        board.SettableReset();
+        board.BoardModeChange2Watch();
+        await UniTask.Delay(500);
+    }
 
+    private async UniTask CPTurn()
+    {
+        board.BoardModeChange2Real();
         cpStart.SetActive(true);
         await UniTask.Delay(1000);
         cpStart.SetActive(false);
+        board.BoardModeChange2Watch();
 
+        await UniTask.Delay(500);
+
+        board.ThunderAnime();
         await board.WatchBoard();
-        board.PosJudgeCP();
-        await UniTask.Delay(100);
+        await UniTask.Delay(800);
+        if (board.PosJudgeCP() == 0) return;
+        await UniTask.Delay(400);
         await CP.CPTurn();
-        await UniTask.Delay(100);
+        board.SettableReset();
+        board.BoardModeChange2Watch();
+        await UniTask.Delay(500);
+    }
+
+    private async UniTask FirstPlayerGame()
+    {
+
+        await PlayerTurn();
+        
+        await CPTurn();
+        
 
 
 
@@ -50,23 +81,9 @@ public class GameManager : MonoBehaviour
 
     private async UniTask FirstCPGame()
     {
-        cpStart.SetActive(true);
-        await UniTask.Delay(1000);
-        cpStart.SetActive(false);
+        await CPTurn();
 
-        await board.WatchBoard();
-        board.PosJudgeCP();
-        await UniTask.Delay(100);
-        await CP.CPTurn();
-        await UniTask.Delay(100);
-
-        playerStart.SetActive(true);
-        await UniTask.Delay(1000);
-        playerStart.SetActive(false);
-
-        await board.WatchBoard();
-        board.PosJudgePlayer();
-        await player.PlayerTurn();
+        await PlayerTurn();
     }
 
 
@@ -75,6 +92,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
+            cpPass = false; playerPass = false;
             if (IsFirstPlayer) await FirstPlayerGame();
             else await FirstCPGame();
         }

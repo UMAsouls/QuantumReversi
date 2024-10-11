@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Zenject;
@@ -17,16 +18,22 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     [SerializeField]
     GameObject CPStone;
     [SerializeField]
+    GameObject Stone90;
+    [SerializeField]
     GameObject Stone70;
     [SerializeField]
     GameObject Stone30;
+    [SerializeField]
+    GameObject Stone10;
 
     private void StoneDeactivate()
     {
         PlayerStone.SetActive(false);
         CPStone.SetActive(false);
+        Stone90.SetActive(false);
         Stone70.SetActive(false);
         Stone30.SetActive(false);
+        Stone10.SetActive(false);
     }
 
     private void AppearPlayerStone()
@@ -38,6 +45,11 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     {
         StoneDeactivate();
         CPStone.SetActive(true);
+    }
+    private void AppearStone90()
+    {
+        StoneDeactivate();
+        Stone90.SetActive(true);
     }
 
     private void AppearStone70()
@@ -51,6 +63,18 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
         StoneDeactivate();
         Stone30.SetActive(true);
     }
+
+    private void AppearStone10()
+    {
+        StoneDeactivate();
+        Stone10.SetActive(true);
+    }
+
+    [SerializeField]
+    AudioClip SetSE;
+
+    [SerializeField] 
+    AudioClip ReverseSE;
 
     [SerializeField]
     private GameObject SettableEffect;
@@ -72,6 +96,8 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     private bool isSettable;
 
     private Animator animator;
+    private AudioSource audioSource;
+
     public StoneSettable[,] Stones => GetStones();
 
     private StoneSettable[,] GetStones()
@@ -146,11 +172,23 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
                     AppearPlayerStone();
                     break;
             }
+            audioSource.PlayOneShot(ReverseSE);
 
             stone.Reverse();
             if (masses[dir[0], dir[1]] == null) return;
             masses[dir[0], dir[1]].Reverse(dir, reverseType);
         }
+    }
+
+    public bool MassCheck(int[] dir, WatchedStoneType reverseType)
+    {
+        if (stone.watchedType == reverseType)
+        {
+            if (masses[dir[0], dir[1]] != null) return masses[dir[0], dir[1]].MassCheck(dir, reverseType);
+            else return false;
+        }
+        else if(stone.watchedType == WatchedStoneType.NONE) { return false; }
+        else return true;
     }
 
     /// <summary>
@@ -181,6 +219,8 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
                 reverseType = WatchedStoneType.CPSTONE;
                 break;
         }
+
+        audioSource.PlayOneShot(SetSE);
         
         switch (reverseType)
         {
@@ -198,7 +238,10 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
             {
                 if (i == 1 && j == 1) continue;
                 if(masses[i, j] == null) continue;
-                masses[i, j].Reverse(new int[] { i, j }, reverseType);
+                if (masses[i, j].MassCheck(new int[] { i, j }, reverseType))
+                {
+                    masses[i, j].Reverse(new int[] { i, j }, reverseType);
+                }
             }
         }
     }
@@ -283,8 +326,10 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     {
         switch(stone.Probability)
         {
+            case 0:
+                break;
             case 90:
-                AppearPlayerStone();
+                AppearStone90();
                 break;
             case 70:
                 AppearStone70();
@@ -293,9 +338,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
                 AppearStone30();
                 break;
             case 10:
-                AppearCPStone();
-                break;
-            default:
+                AppearStone10();
                 break;
         }
 
@@ -322,6 +365,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         if (IsFirstPlayer)
         {
