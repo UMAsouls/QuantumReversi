@@ -12,4 +12,8 @@ public interface IBoard
 
     public void SettableReset();
     public void ThunderAnime();
+
+    public bool EndJudge();
+
+    public int CountStone();
 }

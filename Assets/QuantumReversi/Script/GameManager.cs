@@ -23,6 +23,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject cpStart;
 
+    [SerializeField]
+    GameObject resultUI;
+
+    [SerializeField]
+    GameObject WinUI;
+
+    [SerializeField]
+    GameObject LoseUI;
+
     private bool cpPass;
     private bool playerPass;
 
@@ -73,10 +82,6 @@ public class GameManager : MonoBehaviour
         await PlayerTurn();
         
         await CPTurn();
-        
-
-
-
     }
 
     private async UniTask FirstCPGame()
@@ -95,7 +100,25 @@ public class GameManager : MonoBehaviour
             cpPass = false; playerPass = false;
             if (IsFirstPlayer) await FirstPlayerGame();
             else await FirstCPGame();
+
+            if(board.EndJudge()) break;
         }
+
+        resultUI.SetActive(true);
+
+        int count = board.CountStone();
+
+        if(count < 18)
+        {
+            WinUI.SetActive(false);
+            LoseUI.SetActive(true);
+        }else
+        {
+            WinUI.SetActive(true);
+            LoseUI.SetActive(false) ;
+        }
+
+
     }
 
     // Update is called once per frame

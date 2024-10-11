@@ -138,4 +138,19 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     {
         
     }
+
+    public bool EndJudge()
+    {
+        return headMass.IsEnd();
+    }
+
+    public int CountStone()
+    {
+        int count = 0;
+        foreach (var i in watchedBoard)
+        {
+            if(i == 1) count++;
+        }
+        return count;
+    }
 }

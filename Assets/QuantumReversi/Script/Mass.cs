@@ -377,9 +377,20 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
             stone.Set(10);
             AppearCPStone();
         }
+    }
 
-        
+    public bool IsEnd()
+    {
+       if(stone.Probability == 0) return false;
+        bool r, b;
+        if (right != null) r = right.IsEnd();
+        else return true;
 
+       if(bottom != null && left == null) b = bottom.IsEnd();
+       else return r;
+
+       if(r && b) return true;
+       else return false;
     }
 
     // Use this for initialization
