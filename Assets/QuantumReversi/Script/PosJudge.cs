@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PosJudge : MonoBehaviour, IPosJudge
+public class PosJudge : IPosJudge
 {
 
     private int[,] directions = new int[,]
@@ -56,17 +56,5 @@ public class PosJudge : MonoBehaviour, IPosJudge
         }
 
         return board;
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
