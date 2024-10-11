@@ -2,28 +2,67 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Zenject;
 using Zenject.Internal;
 
+[RequireComponent(typeof(Animator))]
 public class Mass : MonoBehaviour, HeadMass, StoneSettable
 {
     [Inject]
     private IStone stone;
 
     [SerializeField]
+    GameObject PlayerStone;
+    [SerializeField]
+    GameObject CPStone;
+    [SerializeField]
+    private GameObject SettableEffect;
+
+    [SerializeField]
     public Mass right;
     [SerializeField]
     public Mass bottom;
 
+    [SerializeField]
+    private bool IsFirstPlayer;
+    [SerializeField]
+    private bool IsFirstCP;
+
     public Mass topleft, top, topright, bottomleft, left, bottomright;
 
-    private Mass[, ] masses = new Mass[3,3];
+    private Mass[,] masses = new Mass[3, 3];
 
     private bool isSettable;
 
-    public StoneSettable[,] Stones => throw new System.NotImplementedException();
+    private Animator animator;
+    public StoneSettable[,] Stones => GetStones();
 
-    public bool IsSettable { get => isSettable; set => isSettable = value; }
+    private StoneSettable[,] GetStones()
+    {
+        StoneSettable[,] stones = new StoneSettable[6, 6];
+
+        Mass m1 = this;
+        for(int i = 0; i < 6; i++)
+        {
+            Mass m2 = m1;
+            for(int j = 0; j < 6; j++)
+            {
+                stones[i, j] = m2;
+                m2 = m2.right;
+            }
+            m1 = m1.bottom;
+        }
+        Debug.Log(stones.Length);
+        return stones;
+    }
+
+    private void SettableSet(bool value)
+    {
+        isSettable = value;
+        SettableEffect.SetActive(value);
+    }
+    public bool IsSettable { get => isSettable; set => SettableSet(value); }
 
     public void getRealBoard(int[,] board, int row, int col)
     {
@@ -63,6 +102,18 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     {
         if(stone.watchedType == reverseType)
         {
+            switch (reverseType)
+            {
+                case WatchedStoneType.PlayerSTONE:
+                    PlayerStone.SetActive(false);
+                    CPStone.SetActive(true);
+                    break;
+                case WatchedStoneType.CPSTONE:
+                    PlayerStone.SetActive(true);
+                    CPStone.SetActive(false);
+                    break;
+            }
+
             stone.Reverse();
             if (masses[dir[0], dir[1]] == null) return;
             masses[dir[0], dir[1]].Reverse(dir, reverseType);
@@ -97,6 +148,17 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
                 reverseType = WatchedStoneType.CPSTONE;
                 break;
         }
+        
+        switch (reverseType)
+        {
+            case WatchedStoneType.PlayerSTONE:
+                PlayerStone.SetActive(true);
+                break;
+            case WatchedStoneType.CPSTONE:
+                CPStone.SetActive(true);
+                break;
+        }
+
         for(int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
@@ -143,37 +205,50 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     /// </summary>
     public void SetMass()
     {
-        bottomright = right.bottom;
-        right.left = this;
-        bottom.top = this;
-        right.bottomleft = bottom;
-        bottom.topright = right;
-        bottomright.topleft = this;
+        if(right != null) right.left = this;
+        if (bottom != null) bottom.top = this;
 
-        if (right != null)
+        if (right != null && bottom != null)
         {
-            right.SetMass();
+            bottomright = right.bottom;
+            right.bottomleft = bottom;
+            bottom.topright = right;
+            bottomright.topleft = this;
         }
-        if(bottom != null && left == null)
-        {
-            bottom.SetMass();
-        }
+
+        if (right != null) right.SetMass();
+        if (bottom != null && left == null) bottom.SetMass();
     }
-
     public void Focus()
     {
-        throw new System.NotImplementedException();
+        animator.SetBool("Focus", true);
     }
 
     public void UnFocus()
     {
-        throw new System.NotImplementedException();
+        animator.SetBool("Focus", false);
+    }
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+
+        if (IsFirstPlayer)
+        {
+            stone.Set(90);
+            PlayerStone.SetActive(true);
+        }
+        else if (IsFirstCP)
+        {
+            stone.Set(10);
+            CPStone.SetActive(true);
+        }
     }
 
     // Use this for initialization
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame

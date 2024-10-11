@@ -31,7 +31,22 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
 
     public int[,] RealBoard => realBoard;
 
-    public int[,] JudgedPos => posJudge.Judge(watchedBoard);
+    public List<int[]> JudgedPosForAI => posJudge.Judge(watchedBoard, -1);
+
+    private void PosJudge(int turn)
+    {
+        List<int[]> result = posJudge.Judge(watchedBoard, turn);
+        Debug.Log("posjudge");
+        Debug.Log(result.Count);
+        foreach (var item in result)
+        {
+            Debug.Log(item[1] + " , " + item[0]);
+            stones[item[1], item[0]].IsSettable = true;
+        }
+    }
+
+    public void PosJudgePlayer() =>PosJudge(1);
+    public void PosJudgeCP() => PosJudge(-1);
 
     /// <summary>
     ///  AI‚ªÎ‚ğƒZƒbƒg‚·‚éÛ‚ÌŠÖ”

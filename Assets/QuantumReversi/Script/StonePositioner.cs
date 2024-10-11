@@ -9,6 +9,9 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
     [SerializeField]
     private PlayerInput input;
 
+    [SerializeField]
+    private GameObject PlayerStone;
+
     private bool isClick = false;
     private bool putable = false;
 
@@ -56,12 +59,14 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
         setMass = collision.gameObject.GetComponent<StoneSettable>();
         if (setMass == null) return;
 
+        PlayerStone.SetActive(true);
         putable = setMass.IsSettable;
         setMass.Focus();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        PlayerStone.SetActive(false);
         setMass.Focus();
         putable = false;
         setMass = null;

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IPosJudge
 {
-    int[,] Judge(int[,] watchBoard);
+    List<int[]> Judge(int[,] watchBoard, int stone);
 }
