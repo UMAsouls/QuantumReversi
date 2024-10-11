@@ -16,6 +16,8 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     GameObject PlayerStone;
     [SerializeField]
     GameObject CPStone;
+    [SerializeField]
+    private GameObject SettableEffect;
 
     [SerializeField]
     public Mass right;
@@ -51,11 +53,16 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
             }
             m1 = m1.bottom;
         }
-
+        Debug.Log(stones.Length);
         return stones;
     }
 
-    public bool IsSettable { get => isSettable; set => isSettable = value; }
+    private void SettableSet(bool value)
+    {
+        isSettable = value;
+        SettableEffect.SetActive(value);
+    }
+    public bool IsSettable { get => isSettable; set => SettableSet(value); }
 
     public void getRealBoard(int[,] board, int row, int col)
     {
@@ -233,7 +240,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
         }
         else if (IsFirstCP)
         {
-            stone.Set(90);
+            stone.Set(10);
             CPStone.SetActive(true);
         }
     }

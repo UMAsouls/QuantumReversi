@@ -15,7 +15,8 @@ public class PosJudge : IPosJudge
         if (board[row, col] != 0) return false;
         if(stone*stone != 1) return false;
 
-        int size = board.Length;
+        int size = board.GetLength(0);
+        
 
         for(int d = 0; d < 8; d++)
         {
@@ -26,8 +27,9 @@ public class PosJudge : IPosJudge
 
             bool hasOpponentBetween = false;
 
-            while(x >= 0 && x < size && y >= 0 && y < size && board[x, y] == -1*stone)
+            while(x >= 0 && x < size && y >= 0 && y < size)
             {
+                if (board[x, y] != -1 * stone) break;
                 hasOpponentBetween = true; x += dx; y += dy;
             }
 
@@ -44,16 +46,20 @@ public class PosJudge : IPosJudge
 
     public List<int[]> Judge(int[,] watchBoard, int stone)
     {
-        int size = watchBoard.Length;
+        int size = watchBoard.GetLength(0);
         List<int[]> board = new List<int[]>();
 
+        string s = "";
         for(int i = 0; i < size; i++)
         {
             for(int j = 0; j < size; j++)
             {
+                s += watchBoard[i, j] + " ,";
                 if (canPlace(watchBoard, i, j, stone)) board.Add(new int[] { j, i });
             }
+            s += "\n";
         }
+        Debug.Log(s); 
 
         return board;
     }
