@@ -36,7 +36,7 @@ public class AI : IAI
         }
         
 
-        //こっからAIのコード
+
         // load model
         ModelAsset modelAsset = Resources.Load("ViTPlayer.onnx") as ModelAsset;
         runtimeModel = ModelLoader.Load(modelAsset);

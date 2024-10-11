@@ -15,31 +15,50 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
     private bool isClick = false;
     private bool putable = false;
 
+    private bool isStay = true;
+
     private StoneSettable setMass;
 
     private Vector2 mousePos;
 
     private StoneType mode;
 
-    private void OnClick(InputValue value)
+    private bool settable;
+
+    public void OnClick(InputValue value)
     {
         isClick = true;
     }
 
-    private void OnMove(InputValue value)
+    public void OnMove(InputValue value)
     {
         mousePos = value.Get<Vector2>();
     }
 
+    public void ChangeMode()
+    {
+        if (settable)
+        {
+            PlayerStone.SetActive(false);
+            settable = false;
+        }else
+        {
+            PlayerStone.SetActive(true);
+            settable=true;
+        }
+    }
+
     public async UniTask<StoneType> PutStone()
     {
+        PlayerStone.SetActive(true);
         input.SwitchCurrentActionMap("Main");
+        Debug.Log(mousePos);
         while (true)
         {
             isClick = false;
             await UniTask.WaitUntil(() => isClick);
 
-            if (putable)  break;
+            if (putable && settable)  break;
         }
 
         var type = mode;
@@ -50,32 +69,48 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
 
         transform.position = Vector3.zero;
         input.SwitchCurrentActionMap("EnemyTurn");
+        PlayerStone.SetActive(false);
+        putable = false;
+        setMass.UnFocus();
+        setMass = null;
         return type;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         putable = false;
+        if(setMass != null)
+        {
+            setMass.UnFocus();
+            setMass = null;
+        }
         setMass = collision.gameObject.GetComponent<StoneSettable>();
+        
         if (setMass == null) return;
 
-        PlayerStone.SetActive(true);
+        putable = setMass.IsSettable;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
         putable = setMass.IsSettable;
         setMass.Focus();
     }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
-        PlayerStone.SetActive(false);
-        setMass.Focus();
-        putable = false;
-        setMass = null;
+        if (collision.tag == "Board" && !collision.IsTouching(GetComponent<Collider2D>()))
+        {
+            setMass = null;
+            setMass.UnFocus();
+            putable = false;
+        }
     }
 
     // Use this for initialization
     void Start()
     {
         mode = StoneType.NINETY;
+        settable = true;
     }
 
     // Update is called once per frame
@@ -84,6 +119,6 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
         var position = Camera.main.ScreenToWorldPoint(mousePos);
         position.z = 0;
 
-        transform.position = position; 
+        transform.position = position;
     }
 }
