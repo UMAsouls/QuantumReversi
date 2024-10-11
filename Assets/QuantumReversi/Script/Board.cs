@@ -29,7 +29,7 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
     /// </summary>
     private int[,] watchedBoard;
 
-    public int[,] RealBoard => realBoard;
+    public int[,] RealBoard => headMass.GetRealBoard();
 
     public List<int[]> JudgedPosForAI => posJudge.Judge(watchedBoard, -1);
 
