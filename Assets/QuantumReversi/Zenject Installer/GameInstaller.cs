@@ -17,5 +17,10 @@ public class GameInstaller : MonoInstaller
             .To<Mass>()
             .FromComponentOn(headMass)
             .AsTransient();
+
+        Container
+            .Bind<IPosJudge>()
+            .To<PosJudge>()
+            .AsSingle();
     }
 }

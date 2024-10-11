@@ -31,7 +31,7 @@ public class Board : MonoBehaviour, IBoard, BoardGettableForAI
 
     public int[,] RealBoard => realBoard;
 
-    public int[,] JudgedPos => posJudge.Judge(watchedBoard);
+    public int[,] JudgedPos => null;
 
     /// <summary>
     ///  AI‚ªÎ‚ðƒZƒbƒg‚·‚éÛ‚ÌŠÖ”
