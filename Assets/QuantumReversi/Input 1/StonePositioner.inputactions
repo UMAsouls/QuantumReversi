@@ -1,0 +1,60 @@
+{
+    "name": "StonePositioner",
+    "maps": [
+        {
+            "name": "Main",
+            "id": "ce070027-dfc5-4ce5-b22b-bcf792552dea",
+            "actions": [
+                {
+                    "name": "OnMove",
+                    "type": "Value",
+                    "id": "4caa7aa5-7167-4fd8-b567-194e6625c496",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "OnClick",
+                    "type": "Button",
+                    "id": "63c5b4de-e77c-4fd8-8390-c9d608b9cd4b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e9376c97-89b0-468d-8525-c982b5270fdf",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OnClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68de93b1-ba73-44c9-bd01-29468d571bce",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OnMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "EnemyTurn",
+            "id": "14a0b798-1a75-4116-ad84-d14976e845be",
+            "actions": [],
+            "bindings": []
+        }
+    ],
+    "controlSchemes": []
+}
