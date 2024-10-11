@@ -34,7 +34,9 @@ public class Stone : IStone
         {
             type = WatchedStoneType.PlayerSTONE;
         }
+        Debug.Log("bef " + probability);
         probability = 100 - probability;
+        Debug.Log("aft " + probability);
     }
 
     /// <summary>

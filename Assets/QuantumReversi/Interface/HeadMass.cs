@@ -11,4 +11,7 @@ public interface HeadMass
     StoneSettable[,] Stones { get; }
 
     public void SetMass();
+
+    public void ChangeRealBoard();
+    public void ChangeWatchedBoard();
 }

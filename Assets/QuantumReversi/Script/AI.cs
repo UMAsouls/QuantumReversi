@@ -24,7 +24,7 @@ public class AI : IAI
 
 
         //こっからAIのコード
-
+        setPos = pos[Random.Range(0, pos.Length)];
         //
 
        await board.SetStone(setPos[1], setPos[0], type);
