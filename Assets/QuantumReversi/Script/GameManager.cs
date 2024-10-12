@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 public class GameManager : MonoBehaviour
@@ -125,5 +126,15 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void GamePlay()
+    {
+        SceneManager.LoadScene("TestScene");
+    }
+
+    public void GoTitle()
+    {
+        SceneManager.LoadScene("Title");
     }
 }

@@ -1,7 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Zenject;
@@ -25,6 +23,34 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
     GameObject Stone30;
     [SerializeField]
     GameObject Stone10;
+
+    [SerializeField]
+    AudioClip SetSE;
+
+    [SerializeField] 
+    AudioClip ReverseSE;
+
+    [SerializeField]
+    private GameObject SettableEffect;
+
+    [SerializeField]
+    public Mass right;
+    [SerializeField]
+    public Mass bottom;
+
+    [SerializeField]
+    private bool IsFirstPlayer;
+    [SerializeField]
+    private bool IsFirstCP;
+
+    public Mass topleft, top, topright, bottomleft, left, bottomright;
+
+    private Mass[,] masses = new Mass[3, 3];
+
+    private bool isSettable;
+
+    private Animator animator;
+    private AudioSource audioSource;
 
     private void StoneDeactivate()
     {
@@ -69,34 +95,6 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
         StoneDeactivate();
         Stone10.SetActive(true);
     }
-
-    [SerializeField]
-    AudioClip SetSE;
-
-    [SerializeField] 
-    AudioClip ReverseSE;
-
-    [SerializeField]
-    private GameObject SettableEffect;
-
-    [SerializeField]
-    public Mass right;
-    [SerializeField]
-    public Mass bottom;
-
-    [SerializeField]
-    private bool IsFirstPlayer;
-    [SerializeField]
-    private bool IsFirstCP;
-
-    public Mass topleft, top, topright, bottomleft, left, bottomright;
-
-    private Mass[,] masses = new Mass[3, 3];
-
-    private bool isSettable;
-
-    private Animator animator;
-    private AudioSource audioSource;
 
     public StoneSettable[,] Stones => GetStones();
 
