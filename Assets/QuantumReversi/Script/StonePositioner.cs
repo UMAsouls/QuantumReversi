@@ -52,7 +52,6 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
     {
         PlayerStone.SetActive(true);
         input.SwitchCurrentActionMap("Main");
-        Debug.Log(mousePos);
         while (true)
         {
             isClick = false;
@@ -93,7 +92,7 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.tag == "Mass")
+        if(collision.tag == "Mass" && setMass != null)
         {
             putable = setMass.IsSettable;
             setMass.Focus();
