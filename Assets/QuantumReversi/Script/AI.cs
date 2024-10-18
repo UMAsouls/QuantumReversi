@@ -23,7 +23,7 @@ public class AI : IAI
         var runtimeModel = ModelLoader.Load(modelAsset);
 
         // create engine and execute
-        worker = new Worker(runtimeModel, BackendType.GPUCompute);
+        worker = new Worker(runtimeModel, BackendType.CPU);
         
     }
 
@@ -94,5 +94,10 @@ public class AI : IAI
         output.Dispose();
 
         await board.SetStone(setPos[1], setPos[0], type);
+    }
+
+    public void ModelDispose()
+    {
+        if(worker != null) { worker.Dispose(); }
     }
 }

@@ -37,6 +37,11 @@ public class CP : MonoBehaviour, ICP, CPStoneCountable
         ai.ModelLoad();
     }
 
+    private void OnDestroy()
+    {
+        ai.ModelDispose();
+    }
+
     // Update is called once per frame
     void Update()
     {
