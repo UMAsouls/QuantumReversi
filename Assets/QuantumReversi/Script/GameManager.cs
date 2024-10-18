@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     private GameObject cpStart;
 
     [SerializeField]
+    private GameObject countUI;
+
+    [SerializeField]
     GameObject resultUI;
 
     [SerializeField]
@@ -84,13 +87,17 @@ public class GameManager : MonoBehaviour
     {
 
         await PlayerTurn();
-        
+
+        if (board.EndJudge()) return;
+
         await CPTurn();
     }
 
     private async UniTask FirstCPGame()
     {
         await CPTurn();
+
+        if (board.EndJudge()) return;
 
         await PlayerTurn();
     }
@@ -109,11 +116,23 @@ public class GameManager : MonoBehaviour
             if(board.EndJudge()) break;
         }
 
-        resultUI.SetActive(true);
+        board.BoardModeChange2Real();
+        countUI.SetActive(true);
+        await UniTask.Delay(1000, cancellationToken: cts);
+        countUI.SetActive(false);
+        board.BoardModeChange2Watch();
 
+        await UniTask.Delay(1000, cancellationToken: cts);
+
+        board.ThunderAnime();
+        await board.WatchBoard();
+
+        await UniTask.Delay(600, cancellationToken: cts);
         int count = board.CountStone();
 
-        if(count < 18)
+        resultUI.SetActive(true);
+
+        if (count < 18)
         {
             WinUI.SetActive(false);
             LoseUI.SetActive(true);
