@@ -34,6 +34,7 @@ public class CP : MonoBehaviour, ICP, CPStoneCountable
     void Start()
     {
         stone90 = 9; stone70 = 9;
+        ai.ModelLoad();
     }
 
     // Update is called once per frame

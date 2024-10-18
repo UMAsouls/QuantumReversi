@@ -14,6 +14,19 @@ public class AI : IAI
 
     StoneType type = StoneType.THIRTY;
 
+    Worker worker;
+
+    public void ModelLoad()
+    {
+        // load model
+        ModelAsset modelAsset = Resources.Load("ViTPlayer_L") as ModelAsset;
+        var runtimeModel = ModelLoader.Load(modelAsset);
+
+        // create engine and execute
+        worker = new Worker(runtimeModel, BackendType.GPUCompute);
+        
+    }
+
     public async UniTask SetStone()
     {
         //おける場所
@@ -39,16 +52,12 @@ public class AI : IAI
             }
         }
 
-        // load model
-        ModelAsset modelAsset = Resources.Load("ViTPlayer_S") as ModelAsset;
-        var runtimeModel = ModelLoader.Load(modelAsset);
+        
 
         // create input tensor
         TensorShape shape = new TensorShape(1, 1, 6, 6);
         Tensor inputtensor = new Tensor<float>(shape, reshapedBoard);
 
-        // create engine and execute
-        Worker worker = new Worker(runtimeModel, BackendType.GPUCompute);
         worker.Schedule(inputtensor);
 
         // get output
@@ -80,6 +89,10 @@ public class AI : IAI
         // 対応する座標を pos から取り出す
         setPos = pos[minIndex];
 
-       await board.SetStone(setPos[1], setPos[0], type);
+        inputtensor.Dispose();
+        outputtensor.Dispose();
+        output.Dispose();
+
+        await board.SetStone(setPos[1], setPos[0], type);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class StonePositioner : MonoBehaviour, IStonePositioner
 {
@@ -25,6 +27,8 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
 
     private bool settable;
 
+    private CancellationToken cts;
+
     public void OnClick(InputValue value)
     {
         isClick = true;
@@ -33,6 +37,11 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
     public void OnMove(InputValue value)
     {
         mousePos = value.Get<Vector2>();
+    }
+
+    public void OnESC(InputValue value)
+    {
+        SceneManager.LoadScene("Title");
     }
 
     public void ChangeMode()
@@ -55,7 +64,7 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
         while (true)
         {
             isClick = false;
-            await UniTask.WaitUntil(() => isClick);
+            await UniTask.WaitUntil(() => isClick, PlayerLoopTiming.Update, cts);
 
             if (putable && settable && setMass != null)  break;
         }
@@ -115,6 +124,7 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
         mode = StoneType.NINETY;
         settable = true;
         isStay = false;
+        cts = this.GetCancellationTokenOnDestroy();
     }
 
     // Update is called once per frame
