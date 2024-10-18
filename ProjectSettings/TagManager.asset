@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Board
+  - FxTemporaire
+  - Mass
   layers:
   - Default
   - TransparentFX
@@ -52,5 +54,5 @@ TagManager:
     uniqueID: 1259448367
     locked: 0
   - name: UI
-    uniqueID: 1267534563
+    uniqueID: 311343819
     locked: 0

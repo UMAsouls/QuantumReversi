@@ -1,7 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class StonePositioner : MonoBehaviour, IStonePositioner
 {
@@ -25,6 +27,8 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
 
     private bool settable;
 
+    private CancellationToken cts;
+
     public void OnClick(InputValue value)
     {
         isClick = true;
@@ -33,6 +37,11 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
     public void OnMove(InputValue value)
     {
         mousePos = value.Get<Vector2>();
+    }
+
+    public void OnESC(InputValue value)
+    {
+        SceneManager.LoadScene("Title");
     }
 
     public void ChangeMode()
@@ -52,13 +61,12 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
     {
         PlayerStone.SetActive(true);
         input.SwitchCurrentActionMap("Main");
-        Debug.Log(mousePos);
         while (true)
         {
             isClick = false;
-            await UniTask.WaitUntil(() => isClick);
+            await UniTask.WaitUntil(() => isClick, PlayerLoopTiming.Update, cts);
 
-            if (putable && settable)  break;
+            if (putable && settable && setMass != null)  break;
         }
 
         var type = mode;
@@ -93,15 +101,19 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        putable = setMass.IsSettable;
-        setMass.Focus();
+        if(collision.tag == "Mass" && setMass != null)
+        {
+            putable = setMass.IsSettable;
+            setMass.Focus();
+        }
+        
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.tag == "Board" && !collision.IsTouching(GetComponent<Collider2D>()))
         {
-            setMass = null;
             setMass.UnFocus();
+            setMass = null;
             putable = false;
         }
     }
@@ -111,6 +123,8 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
     {
         mode = StoneType.NINETY;
         settable = true;
+        isStay = false;
+        cts = this.GetCancellationTokenOnDestroy();
     }
 
     // Update is called once per frame

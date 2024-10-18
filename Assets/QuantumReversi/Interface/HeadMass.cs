@@ -14,4 +14,6 @@ public interface HeadMass
 
     public void ChangeRealBoard();
     public void ChangeWatchedBoard();
+
+    public bool IsEnd();
 }
