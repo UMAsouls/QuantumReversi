@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject LoseUI;
 
+    [SerializeField]
+    private bool twoPlayer;
+
     private bool cpPass;
     private bool playerPass;
 
@@ -102,6 +105,15 @@ public class GameManager : MonoBehaviour
         await PlayerTurn();
     }
 
+    private async UniTask TwoPlayerGame()
+    {
+        await PlayerTurn();
+
+        if(board.EndJudge()) return;
+
+        await PlayerTurn();
+    }
+
 
     // Use this for initialization
     async void Start()
@@ -112,6 +124,7 @@ public class GameManager : MonoBehaviour
             cpPass = false; playerPass = false;
             if (IsFirstPlayer) await FirstPlayerGame();
             else await FirstCPGame();
+
 
             if(board.EndJudge()) break;
         }

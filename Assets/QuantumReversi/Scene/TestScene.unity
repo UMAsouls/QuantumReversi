@@ -752,6 +752,7 @@ MonoBehaviour:
   resultUI: {fileID: 791092215}
   WinUI: {fileID: 197931473}
   LoseUI: {fileID: 1510768816}
+  twoPlayer: 0
 --- !u!4 &577010716
 Transform:
   m_ObjectHideFlags: 0
@@ -1086,10 +1087,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1362,7 +1363,9 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4483635312650785254, guid: 8d10bdae6671cdf43878e78dbcb10575, type: 3}
+    - {fileID: 4553926032784835554, guid: 8d10bdae6671cdf43878e78dbcb10575, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3056,6 +3059,10 @@ PrefabInstance:
     - target: {fileID: 6037705839020248772, guid: 2d72dc3b8e6df5742bb02a4769f1a2bd, type: 3}
       propertyPath: m_Name
       value: Board
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037705839020248772, guid: 2d72dc3b8e6df5742bb02a4769f1a2bd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6208366695746846602, guid: 2d72dc3b8e6df5742bb02a4769f1a2bd, type: 3}
       propertyPath: IsFirstCP

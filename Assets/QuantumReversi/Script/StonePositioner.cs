@@ -19,7 +19,7 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
 
     private bool isStay = true;
 
-    private StoneSettable setMass;
+    private StoneSettable setMass = null;
 
     private Vector2 mousePos;
 
@@ -46,6 +46,7 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
 
     public void ChangeMode()
     {
+        /*
         if (settable)
         {
             PlayerStone.SetActive(false);
@@ -55,12 +56,14 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
             PlayerStone.SetActive(true);
             settable=true;
         }
+        */
     }
 
     public async UniTask<StoneType> PutStone()
     {
         PlayerStone.SetActive(true);
         input.SwitchCurrentActionMap("Main");
+        settable = true;
         while (true)
         {
             isClick = false;
@@ -83,7 +86,7 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
         setMass = null;
         return type;
     }
-
+    /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
         putable = false;
@@ -117,6 +120,7 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
             putable = false;
         }
     }
+    */
 
     // Use this for initialization
     void Start()
@@ -127,11 +131,40 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
         cts = this.GetCancellationTokenOnDestroy();
     }
 
+    private void RayHit(Collider2D hit)
+    {
+        
+        var s = hit.gameObject.GetComponent<StoneSettable>();
+
+        Debug.Log(hit.gameObject.name);
+
+        if (s == null || s == setMass) return;
+        else if (setMass != null)
+        {
+            setMass.UnFocus();
+            setMass = null;
+        }
+
+        setMass = s;
+        setMass.Focus();
+
+        putable = setMass.IsSettable;
+    }
+
     // Update is called once per frame
     void Update()
     {
         var position = Camera.main.ScreenToWorldPoint(mousePos);
         position.z = 0;
+
+        RaycastHit2D hit = Physics2D.Raycast(position, Vector2.down, 0f);
+
+        if (hit.collider != null) RayHit(hit.collider);
+        else if(setMass != null)
+        {
+            setMass.UnFocus();
+            setMass = null;
+        }
 
         transform.position = position;
     }
