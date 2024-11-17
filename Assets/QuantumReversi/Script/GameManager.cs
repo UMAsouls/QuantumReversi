@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject LoseUI;
 
+    [SerializeField]
+    private bool twoPlayer;
+
     private bool cpPass;
     private bool playerPass;
 
@@ -48,11 +51,11 @@ public class GameManager : MonoBehaviour
         playerStart.SetActive(true);
         await UniTask.Delay(1000, cancellationToken: cts);
         playerStart.SetActive(false);
-        board.BoardModeChange2Watch();
 
         await UniTask.Delay(1000, cancellationToken: cts);
         
         board.ThunderAnime();
+        board.BoardModeChange2Watch();
         await board.WatchBoard();
         await UniTask.Delay(800, cancellationToken: cts);
         if (board.PosJudgePlayer() == 0) return;
@@ -68,11 +71,11 @@ public class GameManager : MonoBehaviour
         cpStart.SetActive(true);
         await UniTask.Delay(1000, cancellationToken: cts);
         cpStart.SetActive(false);
-        board.BoardModeChange2Watch();
-
+        
         await UniTask.Delay(500, cancellationToken: cts);
 
         board.ThunderAnime();
+        board.BoardModeChange2Watch();
         await board.WatchBoard();
         await UniTask.Delay(800, cancellationToken: cts);
         if (board.PosJudgeCP() == 0) return;
@@ -102,6 +105,15 @@ public class GameManager : MonoBehaviour
         await PlayerTurn();
     }
 
+    private async UniTask TwoPlayerGame()
+    {
+        await PlayerTurn();
+
+        if(board.EndJudge()) return;
+
+        await PlayerTurn();
+    }
+
 
     // Use this for initialization
     async void Start()
@@ -112,6 +124,7 @@ public class GameManager : MonoBehaviour
             cpPass = false; playerPass = false;
             if (IsFirstPlayer) await FirstPlayerGame();
             else await FirstCPGame();
+
 
             if(board.EndJudge()) break;
         }
