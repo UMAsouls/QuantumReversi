@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//小田原・machi共同作成
+//盤面の石を置ける場所を判定するクラス
 public class PosJudge : IPosJudge
 {
-
+    //方向を指定するための定数
     private int[,] directions = new int[,]
     {
         {-1,0 }, {1, 0 }, {0, -1}, {0, 1}, {-1, -1},  {-1, 1},  {1, -1 }, {1,  1 }
     };
 
+    //machi作成
     bool canPlace(int[,] board, int row, int col, int stone)
     {
         if (board[row, col] != 0) return false;
@@ -44,6 +47,7 @@ public class PosJudge : IPosJudge
         return false;
     }
 
+    //machi作成
     public List<int[]> Judge(int[,] watchBoard, int stone)
     {
         int size = watchBoard.GetLength(0);

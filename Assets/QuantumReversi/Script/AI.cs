@@ -7,6 +7,8 @@ using Zenject;
 using Unity.Sentis;
 using System.Linq;
 
+//小田原担当
+//別環境で作ったDeepLerningモデルを読み込み、AIの手を決定する
 public class AI : IAI
 {
     [Inject]
@@ -27,6 +29,7 @@ public class AI : IAI
         
     }
 
+    //
     public async UniTask SetStone()
     {
         //おける場所
@@ -96,6 +99,7 @@ public class AI : IAI
         await board.SetStone(setPos[1], setPos[0], type);
     }
 
+    //モデルの破棄
     public void ModelDispose()
     {
         if(worker != null) { worker.Dispose(); }

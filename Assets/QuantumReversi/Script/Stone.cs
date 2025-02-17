@@ -1,19 +1,21 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+//石を表すクラス
 public class Stone : IStone
 {
+    //石が白色である確率
     private int probability = 0;
     public int Probability => probability;
 
+    //今の石の種類
     private WatchedStoneType type = WatchedStoneType.NONE;
-
     public WatchedStoneType watchedType => type;
 
     /// <summary>
     /// 石の確率をセットする
     /// </summary>
-    /// <param name="prob"></param>
+    /// <param name="prob">確率</param>
     public void Set(int prob)
     {
         probability = prob;

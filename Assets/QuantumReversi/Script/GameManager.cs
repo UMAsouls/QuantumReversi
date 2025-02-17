@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
+//小田原作成
+//ゲームの進行を管理するクラス
 public class GameManager : MonoBehaviour
 {
     [Inject]

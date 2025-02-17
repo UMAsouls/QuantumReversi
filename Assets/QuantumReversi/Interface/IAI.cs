@@ -2,6 +2,7 @@
 
 using Cysharp.Threading.Tasks;
 
+//AIクラスのインターフェース
 public interface IAI
 {
 

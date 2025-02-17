@@ -5,6 +5,10 @@ using UnityEngine.Rendering;
 using Zenject;
 using Zenject.Internal;
 
+//小田原・machi共同作成
+//石を置くマス
+//石が置いてあれば対応するオブジェクトを描画する
+//マスは周囲八方向のマスへの参照を持つ
 [RequireComponent(typeof(Animator))]
 public class Mass : MonoBehaviour, HeadMass, StoneSettable
 {
