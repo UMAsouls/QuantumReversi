@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
+//小田原作成
+//プレイヤーのターンを管理するBehavior
 public class Player : MonoBehaviour, IPlayer
 {
     [Inject]

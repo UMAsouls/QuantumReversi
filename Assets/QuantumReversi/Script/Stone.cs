@@ -2,6 +2,7 @@
 using UnityEngine;
 
 //石を表すクラス
+//小田原作成
 public class Stone : IStone
 {
     //石が白色である確率
