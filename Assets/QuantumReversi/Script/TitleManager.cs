@@ -3,25 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//小田原作成
+//タイトル画面の処理
 public class TitleManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    //ゲーム開始
     public void GamePlay()
     {
         SceneManager.LoadScene("TestScene");
     }
 
+    //ゲーム終了
     public void GameEnd()
     {
     #if UNITY_EDITOR

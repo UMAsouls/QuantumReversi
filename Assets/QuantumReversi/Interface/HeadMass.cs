@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-
+//ボードの左上にあるマスのインターフェース
 public interface HeadMass 
 {
     public UniTask<int[,]> Watch();

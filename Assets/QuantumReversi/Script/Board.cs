@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.Video;
 using Zenject;
 
+//小田原・machi 共同担当
+//盤面の情報を管理するクラス
+
 public class Board : MonoBehaviour, IBoard, BoardGettableForAI
 {
     [Inject]

@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+//小田原担当
+//石を置く位置を決めるクラス
+//プレイヤーの操作を受け付ける
 public class StonePositioner : MonoBehaviour, IStonePositioner
 {
 
@@ -44,21 +47,6 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
         SceneManager.LoadScene("Title");
     }
 
-    public void ChangeMode()
-    {
-        /*
-        if (settable)
-        {
-            PlayerStone.SetActive(false);
-            settable = false;
-        }else
-        {
-            PlayerStone.SetActive(true);
-            settable=true;
-        }
-        */
-    }
-
     public async UniTask<StoneType> PutStone()
     {
         PlayerStone.SetActive(true);
@@ -86,41 +74,7 @@ public class StonePositioner : MonoBehaviour, IStonePositioner
         setMass = null;
         return type;
     }
-    /*
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        putable = false;
-        if(setMass != null)
-        {
-            setMass.UnFocus();
-            setMass = null;
-        }
-        setMass = collision.gameObject.GetComponent<StoneSettable>();
-        
-        if (setMass == null) return;
-
-        putable = setMass.IsSettable;
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if(collision.tag == "Mass" && setMass != null)
-        {
-            putable = setMass.IsSettable;
-            setMass.Focus();
-        }
-        
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "Board" && !collision.IsTouching(GetComponent<Collider2D>()))
-        {
-            setMass.UnFocus();
-            setMass = null;
-            putable = false;
-        }
-    }
-    */
+  
 
     // Use this for initialization
     void Start()
