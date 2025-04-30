@@ -76,28 +76,28 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
         StoneDeactivate();
         CPStone.SetActive(true);
     }
-    private void AppearStone90()
-    {
-        StoneDeactivate();
-        Stone90.SetActive(true);
-    }
 
-    private void AppearStone70()
+    private void AppearStoneByProb(int prob)
     {
-        StoneDeactivate();
-        Stone70.SetActive(true);
-    }
-
-    private void AppearStone30()
-    {
-        StoneDeactivate();
-        Stone30.SetActive(true);
-    }
-
-    private void AppearStone10()
-    {
-        StoneDeactivate();
-        Stone10.SetActive(true);
+        switch (prob)
+        {
+            case 90:
+                StoneDeactivate();
+                Stone90.SetActive(true);
+                break;
+            case 70:
+                StoneDeactivate();
+                Stone70.SetActive(true);
+                break;
+            case 30:
+                StoneDeactivate();
+                Stone30.SetActive(true);
+                break;
+            case 10:
+                StoneDeactivate();
+                Stone10.SetActive(true);
+                break;
+        }
     }
 
     public StoneSettable[,] Stones => GetStones();
@@ -248,6 +248,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
         }
     }
 
+　//ボード観測
     public void watch(int[,] board, int row , int col)
     {
         board[row, col] = stone.Watch();
@@ -326,23 +327,7 @@ public class Mass : MonoBehaviour, HeadMass, StoneSettable
 
     public void ChangeRealBoard()
     {
-        switch(stone.Probability)
-        {
-            case 0:
-                break;
-            case 90:
-                AppearStone90();
-                break;
-            case 70:
-                AppearStone70();
-                break;
-            case 30:
-                AppearStone30();
-                break;
-            case 10:
-                AppearStone10();
-                break;
-        }
+        AppearStoneByProb(stone.Probability);
 
         if(right != null) right.ChangeRealBoard();
         if(bottom != null) bottom.ChangeRealBoard();
