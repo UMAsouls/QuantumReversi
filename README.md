@@ -1,5 +1,8 @@
 # 量子オセロ
-[プレイ動画](https://youtu.be/Pcocyi0pGNA)
+<img width="900" height="506" alt="量子オセロ_10秒_2" src="https://github.com/user-attachments/assets/4f4308b7-a8c1-4e00-b845-f0a691de6607" />
+
+## プレイ動画
+[<img width="1788" height="1011" alt="image" src="https://github.com/user-attachments/assets/994a2ab1-09f9-41bf-908c-7f84b9cb653a" />](https://youtu.be/Pcocyi0pGNA)
 
 ## 概要
 石の白黒がターン毎に変化するオセロです。
